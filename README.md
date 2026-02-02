@@ -1,1 +1,1 @@
-# SQL
+# this script will build a database which has 10 customers, 10 products and 3000 events over a 90 day window. It will also set some values to 0 and some to - to study missing values and values that are inconsistent. 
