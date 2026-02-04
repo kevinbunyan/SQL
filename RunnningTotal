@@ -1,0 +1,14 @@
+/*this is run after the database create script*/
+
+select distinct 
+d.EventYear
+,d.[EventMonth]
+,d.[EventDay]
+,ProductID
+, sum(EventValue) over (Partition by ProductID, d.EventYYMMDD order by d.EventYYMMDD) as DailyTotal
+, sum(EventValue) over (Partition by ProductID, d.EventYYMM order by d.EventYYMMDD) as MonthlyRunningTotal
+, sum(EventValue) over (Partition by ProductID, EventYear order by d.EventYYMMDD) as ProductYearlyRunningTotal
+from tblEvent E
+join tblDateDimension D
+on e.EventYYMMDD = d.EventYYMMDD
+where ProductID = 1;
