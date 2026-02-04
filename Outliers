@@ -1,0 +1,30 @@
+/*this will identify outliers, values outside of +/- 2 stdev */
+
+drop table if exists #event
+
+select 
+ProductID
+,EventDate 
+,EventDateTime
+,EventID
+,EventValue
+,AvgEventValuePlus2StDev
+,AvgEventValueMinus2StDev
+into #event
+from tblEvent E
+join
+(
+select distinct 
+	avg(EventValue) as AvgEventValue
+	,avg(EventValue) + (stdev(EventValue)*2) as AvgEventValuePlus2StDev
+	,avg(EventValue) - (stdev(EventValue)*2) as AvgEventValueMinus2StDev
+	from tblEvent 
+) as S
+on 1=1
+where E.EventValue > AvgEventValuePlus2StDev
+or E.EventValue < AvgEventValueMinus2StDev
+or E.EventValue = 0
+order by 1,2
+
+/*identify values outside of +/- 2 stdev*/
+select * from #event
