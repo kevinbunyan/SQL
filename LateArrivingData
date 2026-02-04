@@ -1,0 +1,10 @@
+/*values stored previously can be used to simulate late arriving data - can use the eventid to update original table */
+
+select EU.* from [dbo].[tblEventUpdates] EU
+join 
+(
+	select * 
+	from #event
+) as EO
+on EU.ProductID = EO.ProductID
+and EU.EventDateTime = EO.EventDateTime
